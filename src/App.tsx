@@ -1,24 +1,76 @@
-// import React from 'react';
-// import logo from './logo.svg';
 import './App.css';
+import SquareGenerationService from './services/SquareGenerationService';
+import Tissue from './components/Tissue';
 
-const MATRIX_SIZE: number = 5;
+interface IGenerationExample {
+    generation: number[][];
+    key: string;
+}
 
-const [
-    rowSize,
-    columnSize,
-]: number[] = [MATRIX_SIZE, MATRIX_SIZE];
+const App = () => {
+    const generationService: SquareGenerationService = new SquareGenerationService(5);
 
-const matrix = Array<number>(rowSize).fill(0).map(()=>Array(columnSize).fill(0));
+    const blockGenerationExample: number[][] =
+        [[0, 0, 0, 0],
+        [0, 1, 1, 0],
+        [0, 1, 1, 0],
+        [0, 0, 0, 0]]
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-          {matrix}
-      </header>
-    </div>
-  );
+    const lineGenerationExample: number[][] =
+        [[0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+        [0, 1, 1, 1, 0],
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0]]
+
+    const creepyGenerationExample: number[][] =
+        [[0, 0, 0, 0, 0, 0],
+        [0, 0, 1, 0, 0, 0],
+        [0, 0, 0, 1, 0, 0],
+        [0, 1, 1, 1, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0]]
+
+    const fractalGenerationExample: number[][] =
+        [[0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 1, 1, 1, 0],
+        [0, 1, 1, 1, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0]]
+
+    const generationExamples: IGenerationExample[] = [
+        { generation: blockGenerationExample, key: 'block' },
+        { generation: lineGenerationExample, key: 'line' },
+        { generation: creepyGenerationExample, key: 'creepy' },
+        { generation: fractalGenerationExample, key: 'fractal' },
+    ]
+
+    return (
+        <div className="app">
+            <div>
+                <div className="title">Solution:</div>
+                <Tissue
+                    initialGeneration={generationService.generate()}
+                    cellSize={50}
+                />
+            </div>
+
+            <div className="example-container">
+                <div className="title">Your examples:</div>
+                <div className="examples">
+                    {generationExamples.map(({ generation, key }) => (
+                        <div key={key} className="example">
+                            <Tissue
+                                initialGeneration={generation}
+                                cellSize={20}
+                            />
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
+    );
 }
 
 export default App;
