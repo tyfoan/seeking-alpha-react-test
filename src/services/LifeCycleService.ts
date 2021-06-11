@@ -66,7 +66,7 @@ class LifeCycleService {
     }
 
     _chooseCellDestiny(cell: number, neighbours: number[]): 0 | 1 {
-        const aliveNeghbours = this._aliveNeghbours(neighbours);
+        const aliveNeghbours = this._sumAlive(neighbours);
 
         if(this._isDead(cell)) {
             if(this._reproduction(aliveNeghbours)) {
@@ -87,7 +87,7 @@ class LifeCycleService {
         return 0;
     }
 
-    _aliveNeghbours(neghbours: number[]): number {
+    _sumAlive(neghbours: number[]): number {
         return neghbours.reduce((a, b) => a + b, 0);
     }
 
